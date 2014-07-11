@@ -51,6 +51,11 @@ form textarea {
   resize: none;
 }
 
+#output.fixed, #output.error {
+  font-family: monospace;
+  white-space: pre;
+}
+
 #output.error {
   color: #f34;
 }

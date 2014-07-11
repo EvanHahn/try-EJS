@@ -22,6 +22,10 @@ $(function() {
   $input.on("keyup", renderThrottled);
   $data.on("keyup", renderThrottled);
 
+  $output.on("click", function() {
+    $output.toggleClass("fixed");
+  });
+
   render();
 
 });
