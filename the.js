@@ -12,7 +12,7 @@ $(function() {
       output = ejs.render(src, context);
       $output.removeClass("error");
     } catch (err) {
-      output = err;
+      output = err.message;
       $output.addClass("error");
     }
     $output.html(output);
