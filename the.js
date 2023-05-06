@@ -1,31 +1,23 @@
-$(function() {
-
-  var $input = $("#template");
-  var $data = $("#data");
-  var $output = $("#output");
-
-  function render() {
-    var output;
-    try {
-      var src = $input.val();
-      var context = Function("", "return " + $data.val())() || {};
-      output = ejs.render(src, context);
-      $output.removeClass("error");
-    } catch (err) {
-      output = err.message;
-      $output.addClass("error");
-    }
-    $output.html(output);
+function render() {
+  try {
+    output.innerHTML = ejs.render(template.value, JSON.parse(data.value) || {});
+    output.classList.remove("error");
+  } catch (err) {
+    output.innerHTML = err.message;
+    output.classList.add("error");
   }
+}
 
-  var renderThrottled = $.throttle(250, render);
-  $input.on("keyup", renderThrottled);
-  $data.on("keyup", renderThrottled);
+let lastRequestedRender;
+const requestRender = () => {
+  if (lastRequestedRender) cancelAnimationFrame(lastRequestedRender);
+  lastRequestedRender = requestAnimationFrame(render);
+};
+template.addEventListener("input", requestRender);
+data.addEventListener("input", requestRender);
 
-  $output.on("click", function() {
-    $output.toggleClass("fixed");
-  });
-
-  render();
-
+output.addEventListener("click", () => {
+  output.classList.toggle("fixed");
 });
+
+render();
